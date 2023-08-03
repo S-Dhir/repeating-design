@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+	<script src="p5.min.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		function getDistance(x1, y1, x2, y2){
+    let y = x2 - x1;
+    let x = y2 - y1;
+    
+    return Math.sqrt(x * x + y * y);
+}	
+		let img
+		let sharp_up
+		var size = 60
+		function preload() {
+			img = loadImage("images.png")
+			sharp_up = loadImage("sharp-up.png")
+		}
+		const canvaHeight = _tan(60)*size*10/2+3 
+		const canvaWidth = size*10
+		function setup() {
+			createCanvas(canvaWidth,canvaHeight)
+			background("black")
+			stroke("white")
+			strokeWeight(3)
+		}
+		function draw() {
+			
+			var offset = false;
+			var localoffset = false;
+			for(var y =1.5; y<=800;) {
+				for(var x = 0; x<=800;)
+				{	
+					if(offset && localoffset) {
+						x+=size/-2
+						localoffset = false
+					}
+					image(img,x,y,size,_tan(60)*size/2)
+					image(sharp_up,x+size/-2,y,size,_tan(60)*size/2)
+					
+					line(x,y,x+size,y)
+					strokeWeight(6)
+					line(x+size,y,x+(size/2),_tan(60)*(size/2)+y)
+					strokeWeight(3)
+					line(x+(size/2),_tan(60)*(size/2)+y,x,y)
+					
+					x+=size
+					if(x>=800) break
+				}
+				if(offset ==false) {offset = true;localoffset=true}
+				else {offset = false;localoffset = false}
+				y+=_tan(60)*(size/2)
+				if(y>=800) break;
+			}
+			line(0,0,0,10_00)
+			line(canvaWidth,0,canvaWidth,10000)
+		}
+		function _tan(deg) {
+			return Math.tan(deg*(Math.PI/180))
+		}
+		function sleep(milliseconds) {
+			const date = Date.now();
+			let currentDate = null;
+			do {
+				currentDate = Date.now();
+			} while (currentDate - date < milliseconds);
+		}
+	</script>
+	<style>
+		html {
+			background-color: black;
+		}
+		canvas {
+			rotate: calc(180deg);
+			transform: rotateY(calc(180deg));
+		}
+	</style>
+</body>
+</html>
